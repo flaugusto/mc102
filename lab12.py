@@ -7,18 +7,22 @@
 # Nome: Flavio Augusto Pereira Cunha
 # RA: 197083
 
-# Função principal que monta a saída com base na entrada
+# Função principal de execução do programa
 def main():
     # Entrada da postagem no FACESTAR
     post = input()
-    post = post.lower() # ignorando maiúsculas ou minúsculas
+    post = post.lower() # transforma para minúsculo ignorando o estado das letras
 
     directions = findDirections(post)
+    # Para cada direção encontrada:
     for direction in directions:
+        # Encontra qual a elevação imediatamente posterior à ela, com base em sua posição
         elevation = findElevation(direction['position'], post)
+        # Exibe o par de direção e elevação
         print(direction['name'] + ' - ' + elevation['name'])
 
 # Função que procura as palavras chave de direções no texto e retorna suas posições na ordem em que foram encontradas
+# @param text:string texto do post para análise
 def findDirections(text):
     # Dicionário palavras-chave > direções
     directions = {
@@ -49,21 +53,29 @@ def findDirections(text):
     positions.sort(key = lambda pair: pair['position'])
     return positions
 
-# Função que procura as palavras-chave de elevações e retorna a mais próxima a posição fornecida
-def findElevation(pos, text):
+# Função que procura as palavras-chave de elevações e retorna a mais próxima da posição fornecida
+# @param begin:int Posição inicial onde deve-se começar a procurar as elevações
+# @param text:string texto do post para análise
+def findElevation(begin, text):
     # Dicionário palavras-chave > ângulos de elevação
     elevations = {
         'verde': '30',
         'amarelo': '45',
         'vermelho': '60'
     }
+    # Cria um item inicial de posição mais próxima sendo a mais longe possível
     nearElevation = {'position': len(text), 'elevation': 0 }
+    # Para cada elevação encontrada:
     for key, elevation in elevations.items():
-        elePos = text.find(key, pos)
-        if (elePos != -1):
-            if (elePos < nearElevation['position']):
-                nearElevation['position'] = elePos
+        pos = text.find(key, begin)
+        if (pos != -1):
+            # Verifica se a posição da elevação encontrada é menor que a anterior:
+            if (pos < nearElevation['position']):
+                # Atualiza esta como a menor se caso verdadeiro
+                nearElevation['position'] = pos
                 nearElevation['name'] = elevation
+    # Assim, a função retornará sempre a elevação mais próxima encontrada, isto é, a imediatamente posterior a direção
     return nearElevation
-
+    
+# Invocação da função principal
 main()

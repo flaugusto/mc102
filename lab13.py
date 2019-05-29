@@ -5,22 +5,24 @@
 # Entrada:
 # Número de linhas e colunas da matriz separadas por ' '
 # Dias para simular
-# As proximas linhas são as linhas da matriz composta pela quantidade de colunas da matriz (0 = vazio, 1 = humano, 2 = zumbi)
+# As proximas linhas são as linhas da matriz (0 = vazio, 1 = humano, 2 = zumbi)
 # Saída: (repetida pela quantidade de dias informados)
 # Uma linha explicitando qual iteracao (dia) está sendo simulado
-# A matriz após a simulacao
+# A matriz inicial (1 vez)
+# A matriz após a simulacao (dias de simulacao vezes)
 
 # Nome: Flavio Augusto Pereira Cunha
 # RA: 197083
+import random
 
 def main():
-    dim = input().split(' ')
-    n = int(dim[0]) # n linhas
-    m = int(dim[1]) # m colunas
+    dim = input().split(' ') # dimensão da matriz
+    n = int(dim[0]) # linhas
+    m = int(dim[1]) # colunas
     d = int(input()) # dias para simular
     # matriz inicial n x m com zeros, adicionando 2 colunas e 2 linhas
-    planet = [[0 for j in range(m + 2)] for x in range(n + 2)]
-    simulate(readMatrix(planet), d)
+    planet = [[random.randint(0, 1) for j in range(m + 2)] for x in range(n + 2)]
+    simulate(planet, d)
 
 def simulate(pastDay, days):
     # Define os tipos para facilitar o entendimento no código
@@ -34,13 +36,13 @@ def simulate(pastDay, days):
     matrixPrint(pastDay)
     # Inicia a simulação
     for d in range(1, days + 1):
-        # Matriz simulada do proximo dia com zeros, de mesma ordem da anterior
+        # Matriz simulada do proximo dia com zeros, de mesma ordem da inicial
         simulated = [[0 for j in range(m)] for x in range(n)]
         for i in range(1, n - 1):
             for j in range(1, m - 1):
                 zcounter = 0 # zumbis
                 hcounter = 0 # humanos
-                # Movimentações a serem feitas para comparar com todos os vizinhos
+                # Analisa da sub-matriz 3x3 para cada posição da matriz do planeta
                 for x in range(len(offset)):
                     for y in range(len(offset)):
                         # Ignora o caso i + 0 e j + 0, pois é o próprio individuo
@@ -53,7 +55,7 @@ def simulate(pastDay, days):
                 # Depois de contar os vizinhos zumbis ou humanos
                 # faz as validações para cada caso
                 ind = pastDay[i][j] # individuo
-                if (ind == human and zcounter >=1):
+                if (ind == human and zcounter >= 1):
                     ind = zombie
                 elif (ind == zombie):
                     if (hcounter >= 2 or hcounter == 0):
@@ -76,7 +78,7 @@ def readMatrix(matrix):
         matrix[i] = [0] + intline + [0]
     return matrix
 
-# Impressão de uma matriz quadrada
+# Impressão da matriz com zeros
 def matrixPrint(matrix):
     if (matrix != []):
         n = len(matrix)

@@ -1,0 +1,30 @@
+7
+Carlos
+Maria
+Jose
+Joao
+Ana
+Cristiano
+Ronaldo
+Carlos 0 X 5 Maria
+Carlos 1 X 5 Jose
+Carlos 5 X 1 Joao
+Carlos 2 X 2 Ana
+Carlos 2 X 3 Cristiano
+Carlos 0 X 1 Ronaldo
+Maria 3 X 4 Jose
+Maria 3 X 0 Joao
+Maria 2 X 2 Ana
+Maria 1 X 3 Cristiano
+Maria 3 X 0 Ronaldo
+Jose 4 X 3 Joao
+Jose 5 X 2 Ana
+Jose 0 X 1 Cristiano
+Jose 1 X 0 Ronaldo
+Joao 5 X 0 Ana
+Joao 0 X 4 Cristiano
+Joao 0 X 2 Ronaldo
+Ana 0 X 0 Cristiano
+Ana 1 X 3 Ronaldo
+Cristiano 5 X 1 Ronaldo
+

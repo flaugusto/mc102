@@ -1,0 +1,9 @@
+Diego, 16, 5, 10, 23
+Carlos, 15, 4, 12, 26
+Joao, 13, 4, 1, 16
+Cristiano, 12, 4, -2, 14
+Jose, 12, 4, -4, 19
+Ana, 11, 3, 3, 18
+Ronaldo, 11, 3, -3, 19
+Maria, 7, 2, -11, 17
+Rodriguinho, 6, 2, -6, 19

@@ -113,7 +113,7 @@ done
 
 # Compara os resultados
 erros=0
-for i in `ls -1 arq*in`; do
+for i in `ls -1 testes/arq*in`; do
     arq=${i%.in}
 
     cmp=$(diff $arq.res $arq.out)

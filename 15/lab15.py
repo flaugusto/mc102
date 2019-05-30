@@ -30,12 +30,12 @@ def atualizaTabela(tabela, jogo):
         # Procura os times que jogaram na tabela e insere os dados do jogo
         if (time[0] == time1['nome']):
             time[1] += time1['pontos'] # Soma os pontos ganhos
-            # Se vitória, soma +1 vitória
-            if (time1['pontos'] == 3):
+            if (time1['pontos'] == 3): # Soma vitórias
                 time[2] += 1
             time[3] += time1['gols'] # Saldo gols positivo
             time[3] -= time2['gols'] # Saldo gols contra
             time[4] += time1['gols'] # Soma gols pró
+        # Executa o mesmo processo para o time2
         if (time[0] == time2['nome']):
             time[1] += time2['pontos']
             if (time2['pontos'] == 3):
@@ -55,8 +55,14 @@ def atualizaTabela(tabela, jogo):
 # Descricão:
 #   retorna 1, se o time1>time2, retorna -1, se time1<time2, e retorna 0, se time1=time2
 #   Observe que time1>time2=true significa que o time1 deve estar em uma posição melhor do que o time2 na tabela.
-# def comparaTimes(time1, time2):
-#  -- INSIRA SEU CÓDIGO AQUI -- #
+def comparaTimes(time1, time2):
+    # Itera pelas colunas dos dados dos times e compara cada campo
+    for col in range(1, len(time1)):
+        if (time1[col] > time2[col]):
+            return 1
+        elif (time1[col] < time2[col]):
+            return -1
+    return 0
 #*******************************************************************************
 
 
@@ -69,8 +75,12 @@ def atualizaTabela(tabela, jogo):
 # Descricão:
 #   Deve ordenar a tabela com campeonato de acordo com as especificaçoes do lab.
 #
-# def ordenaTabela(tabela):
-#  -- INSIRA SEU CÓDIGO AQUI -- #
+def ordenaTabela(tabela):
+    # Aplica a função de comparação em cada time para comparar as posições na tabela
+    for i in range(len(tabela) - 1, 0, -1):
+        for j in range(0, i):
+            if (comparaTimes(tabela[j],tabela[j+1]) == -1):
+                tabela[j], tabela[j+1] = tabela[j+1], tabela[j]
 #*******************************************************************************
 
 

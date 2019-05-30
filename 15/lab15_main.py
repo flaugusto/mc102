@@ -24,7 +24,7 @@ if __name__ == "__main__":
         lab.atualizaTabela(tabela, jogo)
 
     # Ordena a tabela
-    # lab.ordenaTabela(tabela)
+    lab.ordenaTabela(tabela)
 
     # Imprime a tabela
     lab.imprimeTabela(tabela)

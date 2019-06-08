@@ -1,2 +1,2 @@
 # mc102
-Alguns codinhos nos labs de 102
+Alguns codinhos dos labs de 102

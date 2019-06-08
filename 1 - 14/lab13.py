@@ -21,7 +21,7 @@ def main():
     m = int(dim[1]) # colunas
     d = int(input()) # dias para simular
     # matriz inicial n x m com zeros, adicionando 2 colunas e 2 linhas
-    planet = [[random.randint(0, 1) for j in range(m + 2)] for x in range(n + 2)]
+    planet = [[random.randint(0, 2) for j in range(m + 2)] for x in range(n + 2)]
     simulate(planet, d)
 
 def simulate(pastDay, days):
@@ -32,7 +32,7 @@ def simulate(pastDay, days):
     n = len(pastDay)
     m = len(pastDay[0])
     offset = [-1, 0, 1] # matriz de distâncias do individuo para seus vizinhos
-    print('iteracao 0')
+    # print('iteracao 0')
     matrixPrint(pastDay)
     # Inicia a simulação
     for d in range(1, days + 1):
@@ -64,7 +64,7 @@ def simulate(pastDay, days):
                     ind = human
                 # Salva o novo individuo para a matriz do próximo dia
                 simulated[i][j] = ind
-        print('iteracao', d)
+        # print('iteracao', d)
         matrixPrint(simulated)
         pastDay = simulated.copy()
 

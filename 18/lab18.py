@@ -70,7 +70,7 @@ def main():
 def convolution(matrix, core, divider):
     offset = [-1, 0, 1] # matriz de distâncias do pixel para seus vizinhos    
     result = deepcopy(matrix) 
-    
+
     for i in range(1, h - 1):
         for j in range(1, w - 1):
             # Analisa da sub-matriz 3x3 para cada posição da matriz imagem
@@ -96,9 +96,9 @@ def matrixPrint(matrix):
         n = len(matrix)
         m = len(matrix[0])
         for i in range(n):
-            for j in range(0, m - 1):
+            for j in range(0, m -1):
                 print(matrix[i][j], end=' ')
-            print(matrix[i][j + 1])
+            print(matrix[i][j + 1], ' ')
     else:
         print('[]')
 

@@ -11,13 +11,21 @@ sudoku = [
 ]
 ####### Função recursiva principal #######
 
-def findNext(resposta):
-    lines = len(resposta)
-    cols = len(resposta[0])
-    pass
+def findNext(sudoku):
     # Acha a próxima posição vazia na linha corrente 
-    #   Números na linha, coluna e região devem ser distintos
-    # Para cada valor possível, testa o proximo (chama a função novamente)
+    for i in range(9):
+        for j in range(9):
+            if sudoku[i][j] == 0:
+                # Para cada número válido encontrado:
+                for valid in validNumbers(sudoku, i, j):
+                    # Se não exisitr nenhum número válido por esse caminho, invalida o retorno
+                    if valid == None:
+                        return None
+                    # Troca o zero pelo número encontrado
+                    sudoku[i][j] = valid
+                    if findNext(sudoku) == None:
+                        continue
+                sudoku[i][j] = 0
 
 ####### Funções auxiliares #######
 
@@ -162,5 +170,20 @@ def getRegionIndex(index):
                 # indice da região
                 return i
 
-for x in validNumbers(sudoku, 0,2):
-    print(x)
+
+def matrixPrint(matrix):
+    if (matrix != []):
+        n = len(matrix)
+        m = len(matrix[0])
+        for i in range(n):
+            for j in range(m - 1):
+                print(matrix[i][j], end=' ')
+            print(matrix[i][j + 1])
+    else:
+        print('[]')
+
+
+matrixPrint(sudoku)
+findNext(sudoku)
+print('------------------')
+matrixPrint(sudoku)

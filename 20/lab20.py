@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Laboratório 20: Sudoku
+# Nome: Flavio Augusto Pereira Cunha
+# RA: 197083
 
 # Funcao: print_sudoku
 # Essa funcao ja esta implementada no arquivo lab20_main.py

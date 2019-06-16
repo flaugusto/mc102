@@ -1,61 +1,122 @@
 m = [
-    [87,65,86,121,174],
-    [90,65,50,72,163],
-    [112,77,56,66,157],
-    [108,74,53,87,177],
-    [72,57,66,126,197]
+    [5,3,0,0,7,0,0,0,0],
+    [6,0,0,1,9,5,0,0,0],
+    [0,9,8,0,0,0,0,6,0],
+    [8,0,0,0,6,0,0,0,3],
+    [4,0,0,8,0,3,0,0,1],
+    [7,0,0,0,2,0,0,0,6],
+    [0,6,0,0,0,0,2,8,0],
+    [0,0,0,4,1,9,0,0,5],
+    [0,0,0,0,8,0,0,7,9]
 ]
-core = [
-    [1,0,0],
-    [0,0,0],
-    [0,0,0]
-]
-global w, h
-w, h = len(m), len(m[0])
-def convolution(matrix, core, divider):
-    offset = [-1, 0, 1] # matriz de distâncias do pixel para seus vizinhos
+
+def findNext(resposta):
+    lines = len(resposta)
+    cols = len(resposta[0])
     
-    result = deepcopy(matrix)
-    for i in range(1, h - 1):
-        for j in range(1, w - 1):
-            # Analisa da sub-matriz 3x3 para cada posição da matriz imagem
-            numerator = 0
+    # Acha a próxima posição vazia na linha corrente (considerando os critérios)
+    #   Números na linha, coluna e região devem ser distintos
+
+
+    # Encontra os valores possíveis para a posição
+    # Para cada valor possível, testa o proximo (chama a função novamente)
+
+
+# Gerador numeros válidos
+#   Gera as possibilidades de números para uma dada posição
+# Parametros:
+#   sudoku:     A matriz do jogo sudoku 9x9
+#   i:          A posicao da linha para encontrar os números possíveis
+#   j:          A posição da coluna para encontrar os números possíveis
+# Retorno:
+#   Um iterável contendo cada possibilidade encontrada para a posição
+def validNumbers(sudoku, i, j):
+    nums = [1,2,3,4,5,6,7,8,9]      # possibilidades iniciais
+    ret = True     # controlador para validar se o numero pode ser retornado
+    # para cada número de 1 a 9, testa se ele é possível e gera
+
+    #
+    #
+    def searchInLine():
+        for x in sudoku[i]:
+            if x != 0 and x != num:
+                continue
+            else:
+                return False
+        return True
+    #
+    #
+    def searchInColumn():
+        for line in sudoku:
+            for x in range(j, j + 1):
+                if line[x] != 0 and line[x] != num:
+                    continue
+                else:
+                    return False
+        return True
+    #
+    #
+    def searchInRegion():
+        divided = divide(sudoku)    # Divide a matriz do sudoku em matrizes 3x3 individuais
+        # Retorna os indices da região que deve ser avaliada
+        regionLine = getRegionIndex(i)
+        regionCol = getRegionIndex(j)
+        # Retorna a matriz 3x3 da região que deve ser analisada
+        region = divided[regionLine][regionCol]
+        for i in range(3):
+            for j in range(3):
+                x = region[i][j]
+                if x !=0 and x != num:
+                    continue
+                else:
+                    ret = False
+    for num in nums:
+        # Verifica as possibilidades na linha da posição
+        # Verifica as possibilidades na coluna
+        
+        # Verificar as possibilidades para a região        
+       
+        if ret:
+            yield num
+        else:
+            continue
+    return None
+
+# print(validNumbers(m, 0,2))
+
+def divide(sudoku):
+    r = []
+    step = 3
+    for z in range(3):
+        a,b,c = [],[],[]
+        for line in range(step - 3, step):
+            st, nd, rd = [], [], []
             for x in range(3):
-                for y in range(3):
-                    numerator += core[x][y] * matrix[i + offset[x]][j + offset[y]]
-                    # print('(', core[x][y], ' x ', matrix[i + offset[x]][j + offset[y]], ')')
-            newPixel = numerator//divider
-            # print(newPixel)
-            # Limitação para o máximo suportado no PGM
-            if newPixel < 0:
-                newPixel = 0
-            elif newPixel > 255:
-                newPixel = 255
-            result[i][j] = newPixel
-            
-    return result
+                st.append(m[line][x])
+            for x in range(3,6):
+                nd.append(m[line][x])
+            for x in range(6,9):
+                rd.append(m[line][x])
+            a.append(st)
+            b.append(nd)
+            c.append(rd)
+        l = [a,b,c]
+        r.append(l)
+        step += 3
+    return r
 
-def matrixPrint(matrix):
-    if (matrix != []):
-        n = len(matrix)
-        m = len(matrix[0])
-        for i in range(n):
-            for j in range(0, m - 1):
-                print(matrix[i][j], end=' ')
-            print(matrix[i][j + 1])
-    else:
-        print('[]')
+def getRegionIndex(index):
+    # Cria uma matriz que servirá de guia para localização da região a ser procurada
+    indexes = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8]
+    ]
+    # Baseado no indice da posicao recebido, retorna qual o indice da região correspondente
+    for i in range(3):
+        for j in range(3):
+            if indexes[i][j] == index:
+                # indice da região
+                return i
 
-def deepcopy(arr):
-    b = []
-    for line in arr:
-        l = []
-        for col in line:
-            l.append(col)
-        b.append(l)
-    return b
-
-
-matrixPrint(m)
-print('-----')
-matrixPrint(convolution(m, core, 1))
+# print(findRegion(6))

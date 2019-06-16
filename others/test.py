@@ -1,11 +1,11 @@
-m = [
-    [5,3,0,0,7,0,0,0,0],
-    [6,0,0,1,9,5,0,0,0],
+sudoku = [
+    [5,3,0,0,7,0,2,0,0],
+    [6,4,0,1,9,5,0,0,0],
     [0,9,8,0,0,0,0,6,0],
     [8,0,0,0,6,0,0,0,3],
     [4,0,0,8,0,3,0,0,1],
     [7,0,0,0,2,0,0,0,6],
-    [0,6,0,0,0,0,2,8,0],
+    [0,6,1,0,0,0,2,8,0],
     [0,0,0,4,1,9,0,0,5],
     [0,0,0,0,8,0,0,7,9]
 ]
@@ -13,77 +13,96 @@ m = [
 def findNext(resposta):
     lines = len(resposta)
     cols = len(resposta[0])
-    
-    # Acha a próxima posição vazia na linha corrente (considerando os critérios)
+    pass
+    # Acha a próxima posição vazia na linha corrente 
     #   Números na linha, coluna e região devem ser distintos
-
-
-    # Encontra os valores possíveis para a posição
     # Para cada valor possível, testa o proximo (chama a função novamente)
 
 
 # Gerador numeros válidos
 #   Gera as possibilidades de números para uma dada posição
 # Parametros:
-#   sudoku:     A matriz do jogo sudoku 9x9
+#   sudoku:     A matriz do jogo sudoku 9x9 (com 0 em posições vazias)
 #   i:          A posicao da linha para encontrar os números possíveis
 #   j:          A posição da coluna para encontrar os números possíveis
 # Retorno:
 #   Um iterável contendo cada possibilidade encontrada para a posição
 def validNumbers(sudoku, i, j):
-    nums = [1,2,3,4,5,6,7,8,9]      # possibilidades iniciais
-    ret = True     # controlador para validar se o numero pode ser retornado
-    # para cada número de 1 a 9, testa se ele é possível e gera
-
-    #
-    #
-    def searchInLine():
+    ### Funções auxiliares ###
+    # Procura o número na linha i
+    #   num:    um número de 1 a 9
+    # Retorno:  True se econtrar, False senão
+    def searchInLine(num):
         for x in sudoku[i]:
-            if x != 0 and x != num:
+            if x == 0 or x != num:
                 continue
             else:
-                return False
-        return True
-    #
-    #
-    def searchInColumn():
+                return True
+        return False
+    
+    # Procura o número na coluna j
+    #   num:    um número de 1 a 9
+    # Retorno:  True se econtrar, False senão
+    def searchInColumn(num):
         for line in sudoku:
             for x in range(j, j + 1):
-                if line[x] != 0 and line[x] != num:
+                if line[x] == 0 or line[x] != num:
                     continue
                 else:
-                    return False
-        return True
-    #
-    #
-    def searchInRegion():
-        divided = divide(sudoku)    # Divide a matriz do sudoku em matrizes 3x3 individuais
+                    return True
+        return False
+
+    # Procura o número na região (3x3) da posição i,j
+    #   num:    um número de 1 a 9
+    #   i:      indice da linha da posição avaliada
+    #   j:      indice da coluna da posição avaliada
+    # Retorno:  True se econtrar, False senão
+    def searchInRegion(num, i, j):
+        # Divide a matriz do sudoku em uma matriz 3x3 de matrizes 3x3 individuais
+        divided = divide(sudoku)   
         # Retorna os indices da região que deve ser avaliada
         regionLine = getRegionIndex(i)
         regionCol = getRegionIndex(j)
         # Retorna a matriz 3x3 da região que deve ser analisada
         region = divided[regionLine][regionCol]
+        # Procura o número na matriz 3x3 da região
+        # True se encontra, False senão
         for i in range(3):
             for j in range(3):
                 x = region[i][j]
-                if x !=0 and x != num:
+                if x == 0 or x != num:
                     continue
                 else:
-                    ret = False
-    for num in nums:
-        # Verifica as possibilidades na linha da posição
-        # Verifica as possibilidades na coluna
-        
-        # Verificar as possibilidades para a região        
-       
-        if ret:
-            yield num
-        else:
+                    return True
+        return False
+
+    ### Geração de números possíveis ###
+    # Para cada número de 1 a 9, testa se ele é possível e gera se for
+    for num in range(1,10):
+        # Verifica se o número está na linha
+        if searchInLine(num):
             continue
-    return None
+        # Se não tem na linha, procura na coluna
+        elif searchInColumn(num):
+            continue
+        # Se não tem na coluna e linha, procura na região
+        elif searchInRegion(num, i,j):
+            continue
+        # Se não achou o número nas condições, é um número válido
+        else:
+            yield num
+    # Se para todos os números não foi encontrado nenhum válido, retorna None e termina
+    yield None
+    return
 
-# print(validNumbers(m, 0,2))
-
+# Funcão: Dividir tabela
+#   Divide a matriz do jogo em uma matriz bimensional de matrizes 3x3,
+#   onde cada matriz 3x3 representa uma região (quadradinho) do jogo
+# Parametros:
+#   sudoku:     tabela do jogo sudoku 9x9
+# Retorno:
+#   Uma matriz bimensional onde cada posição possui uma matriz 3x3
+#   correspondente as sub-matrizes 3x3 da matriz do jogo
 def divide(sudoku):
     r = []
     step = 3
@@ -92,11 +111,11 @@ def divide(sudoku):
         for line in range(step - 3, step):
             st, nd, rd = [], [], []
             for x in range(3):
-                st.append(m[line][x])
+                st.append(sudoku[line][x])
             for x in range(3,6):
-                nd.append(m[line][x])
+                nd.append(sudoku[line][x])
             for x in range(6,9):
-                rd.append(m[line][x])
+                rd.append(sudoku[line][x])
             a.append(st)
             b.append(nd)
             c.append(rd)
@@ -105,6 +124,15 @@ def divide(sudoku):
         step += 3
     return r
 
+# Função: Pega indice da região
+#   Esta função procura qual o indice da região correspondente na matriz dividida do sudoku
+#   baseado no indice dado.
+#   Se for passado um indice de linha, ela retornará o indice da linha da região,
+#   assim também como de coluna.
+# Parametros:
+#   index:      indice (0-8) da posição que deseja saber o indice da regiao 
+# Retorno:
+#   Indice da região baseado no indice passado
 def getRegionIndex(index):
     # Cria uma matriz que servirá de guia para localização da região a ser procurada
     indexes = [
@@ -118,5 +146,3 @@ def getRegionIndex(index):
             if indexes[i][j] == index:
                 # indice da região
                 return i
-
-# print(findRegion(6))

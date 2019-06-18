@@ -1,3 +1,6 @@
+
+import time
+
 sudoku = [
     [5,3,0,0,7,0,0,0,0],
     [6,0,0,1,9,5,0,0,0],
@@ -18,14 +21,16 @@ def findNext(sudoku):
             if sudoku[i][j] == 0:
                 # Para cada número válido encontrado:
                 for valid in validNumbers(sudoku, i, j):
-                    # Se não exisitr nenhum número válido por esse caminho, invalida o retorno
-                    if valid == None:
-                        return None
                     # Troca o zero pelo número encontrado
                     sudoku[i][j] = valid
+                    matrixPrint(sudoku)
+                    print('----------------')
                     if findNext(sudoku) == None:
+                        sudoku[i][j] = 0
                         continue
-                sudoku[i][j] = 0
+                # Se não exisitr nenhum número válido por esse caminho, invalida o retorno
+                return None
+                
 
 ####### Funções auxiliares #######
 
@@ -57,10 +62,7 @@ def validNumbers(sudoku, i, j):
         # Se não achou o número nas condições, é um número válido
         else:
             yield num
-            found = True
-    # Se para todos os números não foi encontrado nenhum válido, retorna None e termina
-    if not found:
-        yield None
+    # Se para todos os números não foi encontrado nenhum válido, termina a execução
     return
 
 # Função: Procura na linha
@@ -182,8 +184,6 @@ def matrixPrint(matrix):
     else:
         print('[]')
 
-
 matrixPrint(sudoku)
+print('----------------')
 findNext(sudoku)
-print('------------------')
-matrixPrint(sudoku)

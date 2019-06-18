@@ -31,15 +31,18 @@ def findNext(sudoku):
             if sudoku[i][j] == 0:
                 # Para cada número válido encontrado:
                 for valid in validNumbers(sudoku, i, j):
-                    # Se não exisitr nenhum número válido por esse caminho, invalida o retorno
-                    if valid == None:
-                        return None
                     # Troca o zero pelo número encontrado
                     sudoku[i][j] = valid
                     print_sudoku(sudoku)
+                    # Chama a função para o próximo zero
                     if findNext(sudoku) == None:
+                        # Se a função não encontrar nenhum valor válido, limpa o valor possível
+                        # e tenta o próximo
+                        sudoku[i][j] = 0
                         continue
-                sudoku[i][j] = 0
+                # Se não restar nenhuma possibilidade, invalida o caminho
+                return None
+              
 
 ####### Funções auxiliares #######
 

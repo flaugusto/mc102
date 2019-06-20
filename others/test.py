@@ -29,7 +29,6 @@ def findNext(sudoku):
                         sudoku[i][j] = 0
                         continue
                 # Se não exisitr nenhum número válido por esse caminho, invalida o retorno
-                return None
                 
 
 ####### Funções auxiliares #######

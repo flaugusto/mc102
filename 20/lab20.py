@@ -19,9 +19,7 @@ from lab20_main import print_sudoku
 # Resolve o Sudoku da matriz resposta.
 # Retorna True se encontrar uma resposta, False caso contrario
 def resolve(resposta):
-    if findNext(resposta) != None:
-        return True
-    return False
+    return findNext(resposta)
 
 ####### Função recursiva principal #######
 def findNext(sudoku):
@@ -35,13 +33,17 @@ def findNext(sudoku):
                     sudoku[i][j] = valid
                     print_sudoku(sudoku)
                     # Chama a função para o próximo zero
-                    if findNext(sudoku) == None:
-                        # Se a função não encontrar nenhum valor válido, limpa o valor possível
-                        # e tenta o próximo
+                    if findNext(sudoku):
+                        return True
+                    # Se a função não encontrar nenhum valor válido, 
+                    # limpa o valor possível e tenta o próximo
+                    else:
                         sudoku[i][j] = 0
-                        continue
-                # Se não restar nenhuma possibilidade, invalida o caminho
-                return None
+                # Se todos os valores foram tentados e não foi encontrada a solução,
+                # invalida o caminho e faz com que seja tentado outro
+                return False
+    return True
+    
               
 
 ####### Funções auxiliares #######
@@ -74,10 +76,7 @@ def validNumbers(sudoku, i, j):
         # Se não achou o número nas condições, é um número válido
         else:
             yield num
-            found = True
-    # Se para todos os números não foi encontrado nenhum válido, retorna None e termina
-    if not found:
-        yield None
+    # Se para todos os números não foi encontrado nenhum válido, termina
     return
 
 # Função: Procura na linha

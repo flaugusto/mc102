@@ -48,7 +48,9 @@ def subFinder(tree, mat, i):
 #   num:    número a ser inserido
 def insertSorted(v, num):
     v.append(num)
-    if len(v) == 1:
+    # Para o caso específico do lab,
+    # começa a inserir ordenado a partir da segunda posição
+    if len(v) <= 2:
         return
     else:
         i = len(v) - 1
